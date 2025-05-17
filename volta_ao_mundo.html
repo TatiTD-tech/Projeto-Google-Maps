@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite para Volta ao Mundo</title>
+    <style>
+        /* Estilos globais */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.7; /* Melhora a legibilidade do texto */
+        }
+        h1, h2 {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            color: #2c3e50; /* Tom mais escuro para os títulos */
+        }
+        p {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #667; /* Tom mais suave para o parágrafo */
+        }
+
+        /* Estilos do cabeçalho */
+        header {
+            background-color: #3498db; /* Azul mais vivo */
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+        header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 2.5rem; /* Tamanho maior do título */
+            letter-spacing: 0.1rem;
+        }
+
+        /* Estilos do convite */
+        #invitation {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 700px; /* Largura máxima maior */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transições suaves */
+        }
+        #invitation:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        #invitation h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        #invitation p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        #view-route {
+            margin-top: 2rem;
+        }
+
+        /* Estilos do mapa */
+        #map {
+            height: 600px; /* Altura do mapa aumentada */
+            width: 100%;
+            border-radius: 10px; /* Mapa com bordas arredondadas */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Estilos dos botões */
+        .button {
+            background-color: #ff6b6b; /* Tom de vermelho mais vibrante */
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem; /* Tamanho da fonte aumentado */
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Transições adicionadas */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .button:hover {
+            background-color: #ff4757; /* Vermelho mais escuro no hover */
+            transform: scale(1.05); /* Aumenta ligeiramente no hover */
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        }
+        .button:active {
+            transform: scale(0.95);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos do rodapé */
+        footer {
+            background-color: #2c3e50; /* Tom de azul mais escuro */
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid #34495e;
+        }
+
+        /* Media query para telas menores */
+        @media (max-width: 768px) {
+            #map {
+                height: 400px;
+            }
+            #invitation {
+                padding: 1.5rem;
+            }
+            .button {
+                font-size: 1rem;
+                padding: 1rem 1.5rem;
+            }
+            header h1{
+                font-size: 2rem;
+            }
+            #invitation h2{
+                font-size: 1.5rem;
+            }
+            p{
+                font-size: 1rem;
+            }
+        }
+
+        /*Novos estilos*/
+        .container{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+    </style>
+    <script>
+        let map;
+        let directionsService;
+        let directionsRenderer;
+
+        function initMap() {
+            // Inicializa o mapa
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 }, // Centralizado no meio do mundo
+                zoom: 2, // Zoom para mostrar o mundo todo
+                mapTypeId: 'satellite' // Tipo de mapa para visualização global
+            });
+
+            // Inicializa o serviço de rotas
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: true, // Não mostrar marcadores padrão
+                polylineOptions: { // Estilo da linha da rota
+                    strokeColor: '#FF0000',
+                    strokeWeight: 3, //Espessura da linha
+                    opacity: 0.9, //Opacidade da linha
+                    geodesic: true //Curva da linha
+                }
+            });
+        }
+
+        function calculateAndDisplayRoute() {
+            // Define a rota da volta ao mundo (exemplo simplificado)
+            const waypoints = [
+                { location: 'Sydney, Australia' },
+                { location: 'Tokyo, Japan' },
+                { location: 'Cairo, Egypt' },
+                { location: 'Rome, Italy' },
+                { location: 'New York, USA' },
+                { location: 'Los Angeles, USA' },
+                { location: 'Honolulu, HI, USA' },
+                { location: 'Auckland, New Zealand' },
+            ];
+
+            directionsService.route({
+                origin: 'London, UK', // Começa em Londres
+                destination: 'London, UK', // Termina em Londres
+                waypoints: waypoints,
+                travelMode: google.maps.TravelMode.DRIVING, // Modo de viagem (dirigindo, mas pode ser outros)
+                optimizeWaypoints: true // Otimiza a ordem dos waypoints
+            }, (response, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(response);
+                    displayRouteInfo(response); // Chama função para mostrar informações
+                } else {
+                    alert('Não foi possível calcular a rota: ' + status);
+                }
+            });
+        }
+
+      function displayRouteInfo(response) {
+          const route = response.routes[0];
+          let distance = 0;
+          let duration = 0;
+
+        route.legs.forEach(leg => {
+            distance += leg.distance.value; // em metros
+            duration += leg.duration.value; // em segundos
+        });
+
+        // Converte para km e horas
+        distance = (distance / 1000).toFixed(2);
+        duration = (duration / 3600).toFixed(2);
+
+        // Cria ou atualiza a div com as informações da rota
+        let routeInfoDiv = document.getElementById('route-info');
+        if (!routeInfoDiv) {
+            routeInfoDiv = document.createElement('div');
+            routeInfoDiv.id = 'route-info';
+            routeInfoDiv.style.marginTop = '2rem';
+            routeInfoDiv.style.textAlign = 'center';
+            routeInfoDiv.style.backgroundColor = '#e0f7fa';  // Cor de fundo informativa
+            routeInfoDiv.style.padding = '1.5rem';
+            routeInfoDiv.style.borderRadius = '10px';
+            routeInfoDiv.style.border = '1px solid #b2ebf2'; // Borda mais suave
+            routeInfoDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            document.querySelector('#map').parentNode.insertBefore(routeInfoDiv, document.querySelector('footer'));
+
+        }
+        routeInfoDiv.innerHTML = `<h3 style="color: #00897b; margin-bottom: 1rem; font-size: 1.5rem;">Informações da Rota</h3>
+                                   <p style="font-size: 1.1rem;"><strong>Distância total:</strong> ${distance} km</p>
+                                   <p style="font-size: 1.1rem;"><strong>Duração total:</strong> ${duration} horas</p>`;
+
+      }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Vamos dar a volta ao mundo!</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="invitation">
+            <h2>Junte-se a mim nesta aventura épica!</h2>
+            <p>
+                Embarque em uma jornada inesquecível ao redor do globo, explorando culturas vibrantes,
+                paisagens deslumbrantes e conhecendo pessoas incríveis. Vamos usar o Google Maps para
+                dar a volta ao mundo e explorar o nosso planeta incrível.
+            </p>
+            <p>
+                Para isso, basta clicar no botão acima do boneco do Maps que fica no menu inferior para começar a sua aventura. Vai aparecer os comandos para cima e para baixo e o zoom. Escolhido o lugar, basta arrastar o bonequinho e colocar onde ficar em azul.
+            </p>
+            <button id="view-route" class="button" onclick="calculateAndDisplayRoute()">Explore o mundo através do Maps!</button>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Volta ao Mundo com o Google Maps. By Tatiana T. Durco</p>
+        </div>
+    </footer>
+
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChB7XsrU3If_srZDKmfWsKGuTJp1pqHtc&callback=initMap">
+    </script>
+</body>
+</html>
